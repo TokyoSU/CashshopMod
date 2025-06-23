@@ -1,6 +1,6 @@
 package net.tokyosu.cashshop.utils;
 
-import com.eliotlash.mclib.utils.MathUtils;
+import org.joml.Math;
 
 public class CurrencyData {
     public long gold;
@@ -10,7 +10,7 @@ public class CurrencyData {
     public CurrencyData(long gold, long silver, long copper) {
         this.copper = copper;
         this.silver = silver;
-        this.gold = (long)MathUtils.clamp(gold, 0, 99999999);
+        this.gold = (long)Math.clamp(0, 99999999, gold);
     }
 
     public long getTotal() {
@@ -44,7 +44,7 @@ public class CurrencyData {
     public void set(CurrencyData other) {
         long totalResult = other.getTotal();
         this.gold = totalResult / 10000;
-        this.gold = (long)MathUtils.clamp(gold, 0, 99999999);
+        this.gold = (long)Math.clamp(0, 99999999, this.gold);
         long remainder = totalResult % 10000;
         this.silver = remainder / 100;
         this.copper = remainder % 100;
@@ -55,7 +55,7 @@ public class CurrencyData {
         long totalOther = other.getTotal();
         long totalResult = totalThis + totalOther;
         this.gold = totalResult / 10000;
-        this.gold = (long)MathUtils.clamp(this.gold, 0, 99999999);
+        this.gold = (long)Math.clamp(0, 99999999, this.gold);
         long remainder = totalResult % 10000;
         this.silver = remainder / 100;
         this.copper = remainder % 100;
@@ -74,7 +74,7 @@ public class CurrencyData {
         }
 
         this.gold = total / 10000;
-        this.gold = (long)MathUtils.clamp(gold, 0, 99999999);
+        this.gold = (long)Math.clamp(0, 99999999, this.gold);
         long remainder = total % 10000;
         this.silver = remainder / 100;
         this.copper = remainder % 100;

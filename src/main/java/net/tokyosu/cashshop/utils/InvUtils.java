@@ -1,12 +1,12 @@
 package net.tokyosu.cashshop.utils;
 
-import com.eliotlash.mclib.utils.MathUtils;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Math;
 import org.slf4j.Logger;
 
 import javax.annotation.Nullable;
@@ -28,7 +28,7 @@ public class InvUtils {
         }
 
         ItemStack stack = new ItemStack(item);
-        stack.setCount(MathUtils.clamp(stackCount, 1, 64));
+        stack.setCount(Math.clamp(1, 64, stackCount));
         return stack;
     }
 

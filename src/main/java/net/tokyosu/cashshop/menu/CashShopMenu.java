@@ -1,6 +1,5 @@
 package net.tokyosu.cashshop.menu;
 
-import com.eliotlash.mclib.utils.MathUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -21,6 +20,8 @@ import net.tokyosu.cashshop.server.NetworkHandler;
 import net.tokyosu.cashshop.utils.InvUtils;
 import net.tokyosu.cashshop.utils.ShopUtils;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Math;
+import org.lwjgl.system.MathUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -132,7 +133,7 @@ public class CashShopMenu extends AbstractContainerMenu {
             this.currentPage++;
         else
             this.currentPage--;
-        this.currentPage = MathUtils.clamp(this.currentPage, 0, KubeStartupRegister.getTabPageCount(this.currentTab) - 1);
+        this.currentPage = Math.clamp(0, KubeStartupRegister.getTabPageCount(this.currentTab) - 1, this.currentPage);
         ShopUtils.updateCurrentPage(this.currentTab, this.currentPage); // -1 because we start at 1 for the render
     }
 
