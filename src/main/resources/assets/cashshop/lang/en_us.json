@@ -1,0 +1,20 @@
+{
+  "key.cashshop.cashshop_key": "Open Cash Shop",
+  "key.cashshop.cashshop.warn_same_tab_clicked": "Same shop tab was selected!",
+  "menu.cashshop": "Cash Shop",
+  "menu.cashshop.buy": "Buy",
+  "menu.cashshop.message.no_slot_available": "[Shop] You don't have any slot available, canceled.",
+  "menu.cashshop.message.buy_item": "[Shop] Buy: ",
+  "menu.cashshop.confirm_ok": "Confirm",
+  "menu.cashshop.confirm_cancel": "Cancel",
+  "menu.cashshop.message.buy_canceled": "[Shop] Buy canceled.",
+  "menu.cashshop.buy_ask": "Are you sure ?",
+  "menu.cashshop.message.stack_empty": "[Shop] Empty stack was created, failed to send !",
+  "menu.cashshop.message.slot_empty_buy": "[Shop] Tried to buy an empty slot, canceled !",
+  "menu.cashshop.tab_missing_name": "Missing tab name",
+  "tab.cashshop.discount": "Discount",
+  "tab.cashshop.armor": "Armor",
+  "menu.cashshop.message.buy_item_failed": "[Shop] Failed to buy ",
+  "menu.cashshop.message.buy_item_failed_part2": ", caused by player not having enough currency !",
+  "menu.cashshop.command_add_currency.success": "[Shop] Added currency to player"
+}
