@@ -14,12 +14,12 @@ It allows modpackers to create a cash shop using KubeJS only, without any config
 - FTBQuest: [Curseforge](https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge) Not implemented yet but planned. The goal is to add quests that reward currency upon completion!
 
 # Changelogs
-## v0.0.2
+## v0.0.2 (Alpha)(WIP)
 - Added Most buy item list on the left side (6 slots).
 - Added Discount string, with a pulsating effect.
 - Fixed a bug where if the shop did not have any page could crash when clicking the left/right page button.
 ![Capture d'écran 2025-06-24 125828](https://github.com/user-attachments/assets/7c32476a-ed06-4ceb-a1cf-8e273db4e5c0)
 
-## v0.0.1
+## v0.0.1 (Alpha)
 - Base version
 ![cashshop](https://github.com/user-attachments/assets/44647afa-b2ef-4e6a-b204-0a16ce005c43)
