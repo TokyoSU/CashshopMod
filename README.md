@@ -9,7 +9,6 @@ It allows modpackers to create a cash shop using KubeJS only, without any config
 
 # Mod supported:
 - JEI: [Curseforge](https://www.curseforge.com/minecraft/mc-mods/jei) Enables the JEI UI to adapt to the shop UI size.
-- FTBQuest: [Curseforge](https://www.curseforge.com/minecraft/mc-mods/ftb-quests-forge) Not implemented yet but planned. The goal is to add quests that reward currency upon completion!
 
 # KubeJS commands
 ```
