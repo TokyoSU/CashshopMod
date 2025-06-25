@@ -2,6 +2,7 @@ package net.tokyosu.cashshop.utils;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -32,6 +33,13 @@ public class InvUtils {
         return stack;
     }
 
+    public static boolean isSameItem(ItemEntity from, Item to) {
+        return from.getItem().getItem() == to;
+    }
+
+    public static boolean isSameItem(ItemStack from, Item to) {
+        return from.getItem() == to;
+    }
 
     public static boolean doesItemFromRegistryExist(ResourceLocation location) {
         return ForgeRegistries.ITEMS.containsKey(location);

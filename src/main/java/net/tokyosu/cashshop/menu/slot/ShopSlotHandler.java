@@ -8,8 +8,11 @@ import org.jetbrains.annotations.NotNull;
 
 /// You can't take or place item inside the shop, only through a list given by modpack or server !
 public class ShopSlotHandler extends Slot {
-    public ShopSlotHandler(Container container, int index, int xPosition, int yPosition) {
+    private int maxSlot = 64;
+
+    public ShopSlotHandler(Container container, int maxSlots, int index, int xPosition, int yPosition) {
         super(container, index, xPosition, yPosition);
+        this.maxSlot = maxSlots;
     }
 
     @Override
@@ -24,6 +27,6 @@ public class ShopSlotHandler extends Slot {
 
     @Override
     public int getMaxStackSize() {
-        return 64;
+        return this.maxSlot;
     }
 }

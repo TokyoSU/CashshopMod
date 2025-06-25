@@ -14,6 +14,12 @@ import java.util.List;
 public class ShopUtils {
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    public static @NotNull ItemStack getTabItem(int tabId, int pageId, int slotId) {
+        List<List<TabResource>> tabPages = KubeStartupRegister.getTabPages(tabId);
+        List<TabResource> resources = tabPages.get(pageId);
+        return resources.get(slotId).stack;
+    }
+
     public static @NotNull ItemStack getItem(int tabId, int currentPage, int slotId) {
         List<List<TabResource>> tabPages = KubeStartupRegister.getTabPages(tabId);
         // Check if currentPage is within bounds
@@ -42,13 +48,23 @@ public class ShopUtils {
         return page.get(slotId);
     }
 
+    public static boolean isNextPageTabValid(int tabId, int pageId) {
+        List<List<TabResource>> tabPages = KubeStartupRegister.getTabPages(tabId);
+        if (pageId < 0 || pageId >= tabPages.size()) {
+            LOGGER.warn("Invalid pageId {} for tabId {} when checking next page for validating !", pageId, tabId);
+            return false;
+        }
+        return !tabPages.get(pageId).isEmpty(); // Check if the next page is not empty before switching to it !
+    }
+
     public static void updateCurrentPage(int tabId, int pageId) {
         List<List<TabResource>> tabPages = KubeStartupRegister.getTabPages(tabId);
         if (pageId < 0 || pageId >= tabPages.size()) {
-            LOGGER.warn("Invalid pageId {} for tabId {}", pageId, tabId);
+            LOGGER.warn("Invalid pageId {} for tabId {} when updating current page !", pageId, tabId);
             return;
         }
 
+        Constants.SHOP_PAGE_INV.removeAllItems(); // Remove previous tab pages items !
         List<TabResource> resources = tabPages.get(pageId);
         int maxSlots = Constants.MAX_ITEM_PER_SHOP_PAGE;
         int displayedCount = Math.min(resources.size(), maxSlots);

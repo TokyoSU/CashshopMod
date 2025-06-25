@@ -24,7 +24,7 @@ public class ShopUpdatePacket {
             if (player != null) {
                 Minecraft mc = Minecraft.getInstance();
                 if (mc.screen instanceof CashShopScreen screen) {
-                    screen.updateFromServer(CurrencyUtils.getCurrency(player));
+                    screen.updateCurrencyFromServer(CurrencyUtils.getCurrency(player));
                 }
             }
         });

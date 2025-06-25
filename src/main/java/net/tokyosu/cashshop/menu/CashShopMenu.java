@@ -10,18 +10,14 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.tokyosu.cashshop.CashShop;
 import net.tokyosu.cashshop.Constants;
-import net.tokyosu.cashshop.menu.button.ButtonDualTexture;
-import net.tokyosu.cashshop.menu.button.ShopSlotButton;
 import net.tokyosu.cashshop.menu.button.ShopTabButton;
 import net.tokyosu.cashshop.menu.slot.ShopSlotHandler;
 import net.tokyosu.cashshop.plugin.kubejs.events.KubeStartupRegister;
 import net.tokyosu.cashshop.plugin.kubejs.events.TabResource;
 import net.tokyosu.cashshop.server.NetworkHandler;
-import net.tokyosu.cashshop.utils.InvUtils;
 import net.tokyosu.cashshop.utils.ShopUtils;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Math;
-import org.lwjgl.system.MathUtil;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -53,7 +49,6 @@ public class CashShopMenu extends AbstractContainerMenu {
         // Make the shop slots !
         makePlayerHotbar(playerInv);
         makePlayerInventory(playerInv);
-        makeBestInventorySlots(playerInv);
         makeShopInventorySlots(playerInv);
 
         // Initialize the first page of the shop !
@@ -71,33 +66,23 @@ public class CashShopMenu extends AbstractContainerMenu {
         return true;
     }
 
-    /// Position: 13x27
-    private void makeBestInventorySlots(@NotNull Inventory playerInv) {
-        int posX = 13;
-        int posY = 24;
-        int posYOffset = 28;
-        for (rowId = 0; rowId < 6; rowId++) {
-            addSlot(new ShopSlotHandler(Constants.SHOP_BEST_BUY_INV, rowId, posX, posY + (rowId * posYOffset)));
-        }
-    }
-
     /// Position: 149x63
     private void makeShopInventorySlots(@NotNull Inventory playerInv) {
-        int posX = 147;
+        int posX = 14;
         int posY = 24;
         int posXOffset = 132;
         int posYOffset = 40;
         for (rowId = 0; rowId < 4; rowId++) {
             for (columnId = 0; columnId < 3; columnId++) {
-                addSlot(new ShopSlotHandler(Constants.SHOP_PAGE_INV, columnId + (rowId * 3), posX + (columnId * posXOffset), posY + (rowId * posYOffset)));
+                addSlot(new ShopSlotHandler(Constants.SHOP_PAGE_INV, 64, columnId + (rowId * 3), posX + (columnId * posXOffset), posY + (rowId * posYOffset)));
             }
         }
     }
 
     /// Position: 511x129
     protected void makePlayerInventory(@NotNull Inventory playerInv) {
-        int posX = 161;
-        int posY = 198;
+        int posX = 129;
+        int posY = 190;
         int posXOffset = 18;
         int posYOffset = 18;
         for (rowId = 0; rowId < 3; rowId++) {
@@ -109,8 +94,8 @@ public class CashShopMenu extends AbstractContainerMenu {
 
     /// Position: 511x187
     protected void makePlayerHotbar(@NotNull Inventory playerInv) {
-        int posX = 161;
-        int posY = 256;
+        int posX = 129;
+        int posY = 248;
         int posXOffset = 18;
         for (columnId = 0; columnId < 9; columnId++) {
             addSlot(new Slot(playerInv, columnId,posX + (columnId * posXOffset), posY));
@@ -126,26 +111,29 @@ public class CashShopMenu extends AbstractContainerMenu {
 
     /// Need to go left page or right page when button clicked !
     /// False = right and True = left
-    public void onPageButtonClicked(ButtonDualTexture button, boolean leftOrRight) {
-        Constants.SHOP_PAGE_INV.removeAllItems();
-        this.currentPage = 0;
-        if (leftOrRight)
+    public void onPageButtonClicked(boolean leftOrRight) {
+        boolean isRightValid = ShopUtils.isNextPageTabValid(this.currentTab, this.currentPage + 1);
+        boolean isLeftValid = ShopUtils.isNextPageTabValid(this.currentTab, this.currentPage - 1);
+        if (leftOrRight && isRightValid)
+        {
             this.currentPage++;
-        else
+            this.currentPage = Math.clamp(0, KubeStartupRegister.getTabPageCount(this.currentTab) - 1, this.currentPage);
+            ShopUtils.updateCurrentPage(this.currentTab, this.currentPage); // -1 because we start at 1 for the render
+        }
+        else if (!leftOrRight && isLeftValid)
+        {
             this.currentPage--;
-        this.currentPage = Math.clamp(0, KubeStartupRegister.getTabPageCount(this.currentTab) - 1, this.currentPage);
-        ShopUtils.updateCurrentPage(this.currentTab, this.currentPage); // -1 because we start at 1 for the render
+            this.currentPage = Math.clamp(0, KubeStartupRegister.getTabPageCount(this.currentTab) - 1, this.currentPage);
+            ShopUtils.updateCurrentPage(this.currentTab, this.currentPage); // -1 because we start at 1 for the render
+        }
     }
 
-    public void onItemBuyButtonClicked(int tabId, int currentPage, ShopSlotButton button) {
-        TabResource resource = ShopUtils.getItemResource(tabId, currentPage, button.getShopSlotId());
-        ItemStack stack = InvUtils.createItem(resource.namespace, resource.name, resource.count);
-
-        if (!stack.isEmpty()) {
-            NetworkHandler.sendBuy(stack, resource.price, resource.discount);
+    public void onItemBuyButtonClicked(int tabId, int pageId, int slotId) {
+        TabResource resource = ShopUtils.getItemResource(tabId, pageId, slotId);
+        if (!resource.stack.isEmpty()) {
+            NetworkHandler.sendBuy(resource.stack, slotId, pageId, tabId, resource.price, resource.discount);
             return;
         }
-
         if (KubeStartupRegister.isChatLogEnabled()) {
             this.player.displayClientMessage(Component.translatable("menu.cashshop.message.stack_empty").withStyle(ChatFormatting.RED), false);
         }
@@ -153,12 +141,10 @@ public class CashShopMenu extends AbstractContainerMenu {
 
     public void onTabClicked(int tabId, ShopTabButton button) {
         if (this.currentTab == tabId) return; // Avoid the same tab to update !
+        Constants.SHOP_PAGE_INV.removeAllItems();
         this.currentTab = tabId;
         this.currentPage = 0;
-        Constants.SHOP_PAGE_INV.removeAllItems();
-        ShopUtils.updateCurrentPage(tabId, this.currentPage);
+        ShopUtils.updateCurrentPage(this.currentTab, this.currentPage);
         resetTabExcept(button);
     }
-
-
 }

@@ -12,8 +12,8 @@ public class ICashShopContainerHandler implements IGuiContainerHandler<CashShopS
     @Override
     public @NotNull List<Rect2i> getGuiExtraAreas(@NotNull CashShopScreen containerScreen) {
         List<Rect2i> extraAreas = new ArrayList<>();
-        extraAreas.add(new Rect2i(containerScreen.getGuiLeft(), containerScreen.getGuiTop(), 544, 193)); // Shop part
-        extraAreas.add(new Rect2i(containerScreen.getGuiLeft() + 150, containerScreen.getGuiTop() + 192, 180, 109)); // Inventory part
+        extraAreas.add(new Rect2i(containerScreen.getGuiLeft(), containerScreen.getGuiTop(), 411, 185)); // Shop part
+        extraAreas.add(new Rect2i(containerScreen.getGuiLeft() + 118, containerScreen.getGuiTop() + 184, 180, 108)); // Inventory part
         return extraAreas;
     }
 }

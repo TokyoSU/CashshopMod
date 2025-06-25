@@ -16,5 +16,19 @@
   "tab.cashshop.armor": "Armor",
   "menu.cashshop.message.buy_item_failed": "[Shop] Failed to buy ",
   "menu.cashshop.message.buy_item_failed_part2": ", caused by player not having enough currency !",
-  "menu.cashshop.command_add_currency.success": "[Shop] Added currency to player"
+  "menu.cashshop.command_add_currency.success": "[Shop] Added currency to player",
+  "menu.cashshop.after_discount": "After discount:",
+  "menu.cashshop.no_discount": "Price:",
+  "menu.cashshop.free": "Free",
+  "item.cashshop.copper_item": "Copper Coin",
+  "item.cashshop.silver_item": "Silver Coin",
+  "item.cashshop.gold_item": "Gold Coin",
+  "menu.cashshop.pickup": "[Shop] Added from pickup x",
+  "menu.cashshop.pickup_inv": "[Shop] Added from inventory x",
+  "tab.creative.cashshop": "Cash Shop",
+  "tooltip.cashshop.add_item_copper": "If pickup or inside inventory, will convert to 1 copper (Stack not included).",
+  "tooltip.cashshop.add_item_silver": "If pickup or inside inventory, will convert to 1 silver (Stack not included).",
+  "tooltip.cashshop.add_item_gold": "If pickup or inside inventory, will convert to 1 gold (Stack not included).",
+  "tooltip.cashshop.add_unknown_item": "Unknown item...",
+  "tooltip.cashshop.fire_resistance": "- Immune to lava and fire."
 }

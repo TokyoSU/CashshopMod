@@ -1,6 +1,8 @@
 package net.tokyosu.cashshop.plugin.kubejs.events;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.tokyosu.cashshop.utils.CurrencyData;
 import net.tokyosu.cashshop.utils.InvUtils;
@@ -33,6 +35,28 @@ public class TabResource {
 
     public boolean isEmpty() {
         return this.namespace.equals("null") || (this.stack == null || this.stack.isEmpty() || this.stack == ItemStack.EMPTY);
+    }
+
+    public boolean isFree() {
+        return this.price.getTotal() == 0;
+    }
+
+    public MutableComponent getColorByDiscount(MutableComponent component) {
+        ChatFormatting color;
+        if (discount < 10) {
+            color = ChatFormatting.GREEN;
+        } else if (discount < 30) {
+            color = ChatFormatting.AQUA;
+        } else if (discount < 50) {
+            color = ChatFormatting.BLUE;
+        } else if (discount < 70) {
+            color = ChatFormatting.YELLOW;
+        } else if (discount < 90) {
+            color = ChatFormatting.GOLD;
+        } else {
+            color = ChatFormatting.RED;
+        }
+        return component.withStyle(color);
     }
 
     public void makeItemStack() {
