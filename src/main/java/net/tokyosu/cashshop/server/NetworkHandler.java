@@ -40,6 +40,10 @@ public class NetworkHandler {
         NETWORK_CHANNEL.sendToServer(new ShopOpenPacket());
     }
 
+    public static void sendOpenNpcShop() {
+        NETWORK_CHANNEL.sendToServer(new ShopOpenPacket());
+    }
+
     public static void sendCurrency(CurrencyData currency, int type) {
         NETWORK_CHANNEL.sendToServer(new ShopCurrencyPacket(currency, type));
     }

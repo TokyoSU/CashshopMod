@@ -35,7 +35,7 @@ public class KubeStartupRegister extends EventJS {
             @Param(name = "gold", value = "The price of this item in gold."),
             @Param(name = "silver", value = "The price of this item in silver."),
             @Param(name = "copper", value = "The price of this item in copper."),
-            @Param(name = "discount", value = "The discount price of this item, 0 = no discount, 100 = free (in percentage) (wip)")
+            @Param(name = "discount", value = "The discount price of this item, 0 = no discount, 100 = free (in percentage)")
     })
     @Generics(value = {String.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class, Integer.class})
     public void addItem(String namespace, int tabId, int count, int gold, int silver, int copper, int discount) {

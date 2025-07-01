@@ -3,16 +3,18 @@ package net.tokyosu.cashshop;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.common.CreativeModeTabRegistry;
+import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeMenuType;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,6 +23,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.tokyosu.cashshop.entity.ShopNpc;
 import net.tokyosu.cashshop.item.CoinItem;
 import net.tokyosu.cashshop.menu.CashShopMenu;
 import net.tokyosu.cashshop.plugin.kubejs.events.KubeStartupRegister;
@@ -36,11 +39,14 @@ public class CashShop {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, MOD_ID);
 
     public static final RegistryObject<MenuType<CashShopMenu>> CASH_SHOP_MENU = MENUS.register("menu." + MOD_ID + ".cashshop", () -> IForgeMenuType.create(CashShopMenu::new));
+    public static final RegistryObject<EntityType<ShopNpc>> SHOP_NPC = ENTITIES.register("shop_npc", () -> EntityType.Builder.of(ShopNpc::new, MobCategory.CREATURE).sized(0.6F, 1.8F).build("shop_npc"));
     public static final RegistryObject<Item> COPPER_ITEM = ITEMS.register("copper_item", () -> new CoinItem(new Item.Properties().stacksTo(64).fireResistant().rarity(Rarity.EPIC), 0));
     public static final RegistryObject<Item> SILVER_ITEM = ITEMS.register("silver_item", () -> new CoinItem(new Item.Properties().stacksTo(64).fireResistant().rarity(Rarity.EPIC), 1));
     public static final RegistryObject<Item> GOLD_ITEM = ITEMS.register("gold_item", () -> new CoinItem(new Item.Properties().stacksTo(64).fireResistant().rarity(Rarity.EPIC), 2));
+    public static final RegistryObject<Item> SHOP_NPC_SPAWN_EGG = ITEMS.register("shop_npc_spawn_egg", () -> new ForgeSpawnEggItem(SHOP_NPC, 0xA06540, 0xFFEFC1, new Item.Properties()));
     public static final RegistryObject<CreativeModeTab> CASH_SHOP_TAB = CREATIVE_TABS.register("cashshop_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("tab.creative.cashshop"))
             .icon(GOLD_ITEM.get()::getDefaultInstance)
@@ -48,6 +54,7 @@ public class CashShop {
                 output.accept(COPPER_ITEM.get());
                 output.accept(SILVER_ITEM.get());
                 output.accept(GOLD_ITEM.get());
+                output.accept(SHOP_NPC_SPAWN_EGG.get());
             })
             .build());
 
@@ -57,6 +64,7 @@ public class CashShop {
         MENUS.register(modEventBus);
         ITEMS.register(modEventBus);
         CREATIVE_TABS.register(modEventBus);
+        ENTITIES.register(modEventBus);
         NetworkHandler.register();
         MinecraftForge.EVENT_BUS.register(this);
     }

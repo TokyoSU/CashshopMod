@@ -8,11 +8,11 @@ import net.tokyosu.cashshop.server.provider.ShopMenuProvider;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings("InstantiationOfUtilityClass")
 public class ShopOpenPacket {
     public static void encode(ShopOpenPacket msg, FriendlyByteBuf buf) {
     }
 
-    @SuppressWarnings("InstantiationOfUtilityClass")
     public static ShopOpenPacket decode(FriendlyByteBuf buf) {
         return new ShopOpenPacket();
     }
